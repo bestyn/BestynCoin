@@ -12,9 +12,11 @@ contract Ownable {
     event OwnershipRenounced(address indexed previousOwner);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    function initialize() public {
-        require(!initialized);
-        initialized = true;
+    /**
+     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+     * account.
+     */
+    constructor() public {
         owner = msg.sender;
     }
 
@@ -51,6 +53,4 @@ contract Ownable {
         owner = _newOwner;
         emit OwnershipTransferred(owner, _newOwner);
     }
-
-    bool private initialized;
 }

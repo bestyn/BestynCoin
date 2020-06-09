@@ -18,17 +18,8 @@ contract MainContract is FreezableToken, Pausable, Initializable {
 
     uint private _decimalsMultiplier;
 
-    function initialize (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
-        _name = name;
-        _symbol = symbol;
-        _decimals = decimals;
-        _decimalsMultiplier = 10 ** _decimals;
-        if (paused) {
-            pause();
-        }
-        mint(owner, totalSupply * _decimalsMultiplier);
-        _approve(owner, owner, balanceOf(owner));
-        transferOwnership(owner);
+    constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
+        init(name, symbol, decimals, totalSupply, owner);
     }
 
     /**
@@ -108,6 +99,23 @@ contract MainContract is FreezableToken, Pausable, Initializable {
         _mint(msg.sender, _amount);
         emit Mint(msg.sender, _amount);
     }
+
+    /**
+        * @dev Function whose calling on initialize contract
+        */
+        function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public initializer {
+            _name = __name;
+            _symbol = __symbol;
+            _decimals = __decimals;
+            _decimalsMultiplier = 10 ** _decimals;
+            if (paused) {
+                pause();
+            }
+            mint(__owner, __totalSupply * _decimalsMultiplier);
+            approve(__owner, balanceOf(__owner));
+            finishMinting();
+            transferOwnership(__owner);
+        }
 
     function() external payable {revert();}
 }

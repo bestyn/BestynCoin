@@ -1,0 +1,213 @@
+{
+  "contracts": {
+    "Esillium": {
+      "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
+      "constructorCode": "60806040526000600460006101000a81548160ff0219169083151502179055506000600660006101000a81548160ff02191690831515021790555034801561004657600080fd5b5061378f806100566000396000f3fe",
+      "bodyBytecodeHash": "7b39bab97490362bfce0be38fac71493fd69e0d474d50bfe0e216d85b76f0413",
+      "localBytecodeHash": "8c5ea44fc260996eb11886a25c4a800733e97bd9e0fc13d6c6652ea77e851b8e",
+      "deployedBytecodeHash": "8c5ea44fc260996eb11886a25c4a800733e97bd9e0fc13d6c6652ea77e851b8e",
+      "types": {
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Ownable",
+          "path": "contracts/libs/Ownable.sol",
+          "label": "owner",
+          "astId": 1157,
+          "type": "t_address",
+          "src": "247:20:7"
+        },
+        {
+          "contract": "Ownable",
+          "path": "contracts/libs/Ownable.sol",
+          "label": "initialized",
+          "astId": 1159,
+          "type": "t_bool",
+          "src": "273:24:7"
+        },
+        {
+          "contract": "ERC20",
+          "path": "contracts/ERC/ERC20.sol",
+          "label": "_balances",
+          "astId": 84,
+          "type": "t_mapping<t_uint256>",
+          "src": "364:46:1"
+        },
+        {
+          "contract": "ERC20",
+          "path": "contracts/ERC/ERC20.sol",
+          "label": "_allowed",
+          "astId": 90,
+          "type": "t_mapping<t_uint256>",
+          "src": "417:65:1"
+        },
+        {
+          "contract": "ERC20",
+          "path": "contracts/ERC/ERC20.sol",
+          "label": "_totalSupply",
+          "astId": 92,
+          "type": "t_uint256",
+          "src": "489:29:1"
+        },
+        {
+          "contract": "MintableToken",
+          "path": "contracts/libs/MintableToken.sol",
+          "label": "mintingFinished",
+          "astId": 1068,
+          "type": "t_bool",
+          "src": "385:35:6"
+        },
+        {
+          "contract": "FreezableToken",
+          "path": "contracts/libs/FreezableToken.sol",
+          "label": "frozenAccounts",
+          "astId": 937,
+          "type": "t_mapping<t_bool>",
+          "src": "174:46:5"
+        },
+        {
+          "contract": "Pausable",
+          "path": "contracts/libs/Pausable.sol",
+          "label": "paused",
+          "astId": 1264,
+          "type": "t_bool",
+          "src": "242:26:8"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 3,
+          "type": "t_bool",
+          "src": "757:24:0"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 5,
+          "type": "t_bool",
+          "src": "876:25:0"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 67,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:0"
+        },
+        {
+          "contract": "MainContract",
+          "path": "contracts/MainContract.sol",
+          "label": "_name",
+          "astId": 689,
+          "type": "t_string",
+          "src": "327:20:4"
+        },
+        {
+          "contract": "MainContract",
+          "path": "contracts/MainContract.sol",
+          "label": "_symbol",
+          "astId": 691,
+          "type": "t_string",
+          "src": "354:22:4"
+        },
+        {
+          "contract": "MainContract",
+          "path": "contracts/MainContract.sol",
+          "label": "_decimals",
+          "astId": 693,
+          "type": "t_uint256",
+          "src": "383:22:4"
+        },
+        {
+          "contract": "MainContract",
+          "path": "contracts/MainContract.sol",
+          "label": "_decimalsMultiplier",
+          "astId": 695,
+          "type": "t_uint256",
+          "src": "412:32:4"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": true,
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [],
+        "storageDiff": [
+          {
+            "action": "insert",
+            "updated": {
+              "index": 1,
+              "contract": "Ownable",
+              "path": "contracts/libs/Ownable.sol",
+              "label": "initialized",
+              "astId": 1159,
+              "type": "t_bool",
+              "src": "273:24:7"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "solidityLibs": {},
+  "proxies": {
+    "esilliumcontract/Esillium": [
+      {
+        "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
+        "version": "1.0.0",
+        "implementation": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
+        "admin": "0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "1.0.0",
+  "proxyAdmin": {
+    "address": "0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B"
+  }
+}

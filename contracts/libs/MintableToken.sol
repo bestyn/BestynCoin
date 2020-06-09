@@ -1,4 +1,4 @@
-pragma solidity >0.5.8 <0.6.0;
+pragma solidity ^0.5.0;
 
 import "../ERC/ERC20.sol";
 
@@ -35,7 +35,6 @@ contract MintableToken is ERC20 {
      */
     function mint(address _to, uint256 _amount) public hasMintPermission canMint returns (bool) {
         _mint(_to, _amount);
-        _approve(_to, owner, _amount);
         emit Mint(_to, _amount);
         return true;
     }

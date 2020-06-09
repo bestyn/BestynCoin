@@ -1,4 +1,4 @@
-pragma solidity >0.5.8 <0.6.0;
+pragma solidity ^0.5.0;
 
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./libs/FreezableToken.sol";
@@ -18,8 +18,17 @@ contract MainContract is FreezableToken, Pausable, Initializable {
 
     uint private _decimalsMultiplier;
 
-    constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
-        init(name, symbol, decimals, totalSupply, owner);
+    function initialize (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
+        _name = name;
+        _symbol = symbol;
+        _decimals = decimals;
+        _decimalsMultiplier = 10 ** _decimals;
+        if (paused) {
+            pause();
+        }
+        mint(owner, totalSupply * _decimalsMultiplier);
+        _approve(owner, owner, balanceOf(owner));
+        transferOwnership(owner);
     }
 
     /**
@@ -98,22 +107,6 @@ contract MainContract is FreezableToken, Pausable, Initializable {
     function addTokens(uint256 _amount) public hasMintPermission canMint {
         _mint(msg.sender, _amount);
         emit Mint(msg.sender, _amount);
-    }
-
-    /**
-    * @dev Function whose calling on initialize contract
-    */
-    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public initializer {
-        _name = __name;
-        _symbol = __symbol;
-        _decimals = __decimals;
-        _decimalsMultiplier = 10 ** _decimals;
-        if (paused) {
-            pause();
-        }
-        mint(__owner, __totalSupply * _decimalsMultiplier);
-        _approve(__tokensOwner, __owner, balanceOf(__owner));
-        transferOwnership(__owner);
     }
 
     function() external payable {revert();}

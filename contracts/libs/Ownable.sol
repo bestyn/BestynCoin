@@ -1,4 +1,4 @@
-pragma solidity >0.5.8 <0.6.0;
+pragma solidity ^0.5.0;
 
 /**
 * @title Ownable
@@ -12,11 +12,9 @@ contract Ownable {
     event OwnershipRenounced(address indexed previousOwner);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    /**
-     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-     * account.
-     */
-    constructor() public {
+    function initialize() public {
+        require(!initialized);
+        initialized = true;
         owner = msg.sender;
     }
 
@@ -53,4 +51,6 @@ contract Ownable {
         owner = _newOwner;
         emit OwnershipTransferred(owner, _newOwner);
     }
+
+    bool private initialized;
 }

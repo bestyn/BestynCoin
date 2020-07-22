@@ -4,11 +4,21 @@ import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./libs/FreezableToken.sol";
 import "./libs/Pausable.sol";
 
+/** 
+ * @title Contract constants 
+ * @dev  Contract whose consisit base constants for contract 
+ */
+contract ContractConstants{
+  uint256 internal TOKEN_BUY_PRICE = 200;
+  
+  uint256 internal TOKEN_BUY_PRICE_DECIMAL = 5;
+}
+
 /**
  * @title MainContract
  * @dev Base contract which using for initializing new contract
  */
-contract MainContract is FreezableToken, Pausable, Initializable {
+contract MainContract is ContractConstants, FreezableToken, Pausable, Initializable {
 
     string private _name;
 
@@ -17,6 +27,14 @@ contract MainContract is FreezableToken, Pausable, Initializable {
     uint private _decimals;
 
     uint private _decimalsMultiplier;
+
+    uint256 internal buyPrice;
+
+    uint256 internal buyPriceDecimals;
+
+    uint256 internal membersCount;
+
+    event Buy(address target, uint256 eth, uint256 tokens);
 
     constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
         init(name, symbol, decimals, totalSupply, owner);
@@ -41,6 +59,41 @@ contract MainContract is FreezableToken, Pausable, Initializable {
      */
     function decimals() public view returns (uint) {
         return _decimals;
+    }
+
+    /**
+     * @return return buy price
+     */
+    function getBuyPrice() public view returns (uint256) {
+        return buyPrice;
+    }
+
+    /**
+     * @return return buy price decimals
+     */
+    function getBuyPriceDecimals() public view returns (uint256) {
+        return buyPriceDecimals;
+    }
+
+     /**
+     * @return return count mebers
+     */
+    function getMembersCount() public view returns (uint256) {
+        return membersCount;
+    }
+
+    /**
+     * @dev set prices for sell tokens and buy tokens
+     */
+    function setPrices(uint256 newBuyPrice) public onlyOwner{
+        buyPrice = newBuyPrice;
+    }
+
+    /**
+     * @dev set prices for sell tokens and buy tokens
+     */
+    function setPricesDecimals(uint256 newBuyDecimal) public onlyOwner{
+        buyPriceDecimals = newBuyDecimal;
     }
 
     /**
@@ -101,21 +154,38 @@ contract MainContract is FreezableToken, Pausable, Initializable {
     }
 
     /**
-        * @dev Function whose calling on initialize contract
-        */
-        function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public initializer {
-            _name = __name;
-            _symbol = __symbol;
-            _decimals = __decimals;
-            _decimalsMultiplier = 10 ** _decimals;
-            if (paused) {
-                pause();
-            }
-            mint(__owner, __totalSupply * _decimalsMultiplier);
-            approve(__owner, balanceOf(__owner));
-            finishMinting();
-            transferOwnership(__owner);
+    * @dev Function whose calling on initialize contract
+    */
+    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public initializer {
+        _name = __name;
+        _symbol = __symbol;
+        _decimals = __decimals;
+        _decimalsMultiplier = 10 ** _decimals;
+        if (paused) {
+            pause();
         }
+        setPrices(TOKEN_BUY_PRICE);
+        setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
+        mint(__owner, __totalSupply * _decimalsMultiplier);
+        approve(__owner, balanceOf(__owner));
+        finishMinting();
+        transferOwnership(__owner);
+    }
 
-    function() external payable {revert();}
+    function() external payable {
+        buy(msg.sender, msg.value);
+    }
+
+    /**
+     * @dev buy tokens 
+     */
+    function buy(address _sender, uint256 _value) internal{
+        require (_value > 0 );
+        require (buyPrice > 0);
+        uint256 dec = 10 ** buyPriceDecimals; 
+        uint256 amount = (_value / buyPrice) * dec; 
+        membersCount  = membersCount.add(1);
+        _transfer( owner,  _sender, amount);
+        emit Buy(_sender, _value, amount);
+    }
 }

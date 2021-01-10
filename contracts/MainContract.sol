@@ -36,8 +36,8 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
 
     event Buy(address target, uint256 eth, uint256 tokens);
 
-    constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner) public {
-        init(name, symbol, decimals, totalSupply, owner);
+    constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner, address admin) public {
+        init(name, symbol, decimals, totalSupply, owner, admin);
     }
 
     /**
@@ -156,7 +156,7 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
     /**
     * @dev Function whose calling on initialize contract
     */
-    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public initializer {
+    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner, address __ad) public initializer {
         _name = __name;
         _symbol = __symbol;
         _decimals = __decimals;
@@ -168,7 +168,6 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
         mint(__owner, __totalSupply * _decimalsMultiplier);
         approve(__owner, balanceOf(__owner));
-        finishMinting();
         transferOwnership(__owner);
     }
 
@@ -179,13 +178,13 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
     /**
      * @dev buy tokens 
      */
-    function buy(address _sender, uint256 _value) internal{
-        require (_value > 0 );
-        require (buyPrice > 0);
-        uint256 dec = 10 ** buyPriceDecimals; 
-        uint256 amount = (_value / buyPrice) * dec; 
-        membersCount  = membersCount.add(1);
-        _transfer( owner,  _sender, amount);
+    function buy(address _sender, uint256 _value) internal {
+        require(_value > 0);
+        require(buyPrice > 0);
+        uint256 dec = 10 ** buyPriceDecimals;
+        uint256 amount = (_value / buyPrice) * dec;
+        membersCount = membersCount.add(1);
+        _transfer(owner, _sender, amount);
         emit Buy(_sender, _value, amount);
     }
 }

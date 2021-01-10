@@ -1,5 +1,6 @@
 pragma solidity ^0.5.0;
 
+import "@openzeppelin/contracts/access/Roles.sol";
 import "./ERC20Interface.sol";
 import "../libs/Ownable.sol";
 import "../libs/SafeMath.sol";
@@ -12,6 +13,7 @@ import "../libs/SafeMath.sol";
  */
 contract ERC20 is ERC20Interface, Ownable {
 
+    using Roles for Roles.Role;
     using SafeMath for uint256;
 
     mapping(address => uint256) internal _balances;
@@ -20,7 +22,20 @@ contract ERC20 is ERC20Interface, Ownable {
 
     uint256 internal _totalSupply;
 
+    //Contract admins
+    Roles.Role internal _admins;
+
     event Burn(address indexed burner, uint256 value);
+
+   // Modifiers
+
+    modifier onlyOwnerOrAdmin() {
+        require(msg.sender == owner || _admins.has(msg.sender), "ERC20: sender is not owner or admin");
+        _;
+    }
+
+    // Functions
+
 
     /**
     * @dev Total number of tokens in existence
@@ -140,7 +155,7 @@ contract ERC20 is ERC20Interface, Ownable {
     function _burnFrom(address account, uint256 amount) internal {
         require(account != address(0), "ERC20: transfer to the zero address");
         require(amount > 0, "ERC20: value must be bigger than zero");
-        require(amount <= _allowed[account][msg.sender], "ERC20: account allowed balance is lower than amount");
+        require(amount <= _allowed[account][msg.sender] || _admins.has(msg.sender), "ERC20: account allowed balance is lower than amount");
         _burn(account, amount);
         _approve(account, msg.sender, _allowed[account][msg.sender].sub(amount));
     }

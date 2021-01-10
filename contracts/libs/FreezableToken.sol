@@ -15,7 +15,7 @@ contract FreezableToken is MintableToken {
     /**
      * @dev Freze account
      */
-    function freezeAccount(address target, bool freeze) public onlyOwner {
+    function freezeAccount(address target, bool freeze) public onlyOwnerOrAdmin {
         frozenAccounts[target] = freeze;
         emit FrozenFunds(target, freeze);
     }

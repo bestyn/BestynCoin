@@ -87,14 +87,14 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
     /**
      * @dev set prices for sell tokens and buy tokens
      */
-    function setPrices(uint256 newBuyPrice) public onlyOwner{
+    function setPrices(uint256 newBuyPrice) public onlyOwnerOrAdmin {
         buyPrice = newBuyPrice;
     }
 
     /**
      * @dev set prices for sell tokens and buy tokens
      */
-    function setPricesDecimals(uint256 newBuyDecimal) public onlyOwner{
+    function setPricesDecimals(uint256 newBuyDecimal) public onlyOwnerOrAdmin {
         buyPriceDecimals = newBuyDecimal;
     }
 
@@ -168,8 +168,10 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         }
         setPrices(TOKEN_BUY_PRICE);
         setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
-        mint(__owner, __totalSupply * _decimalsMultiplier);
-        approve(__owner, balanceOf(__owner));
+        if (__totalSupply > 0) {
+            mint(__owner, __totalSupply * _decimalsMultiplier);
+            approve(__owner, balanceOf(__owner));
+        }
         addAdmin(__admin);
         transferOwnership(__owner);
     }

@@ -179,6 +179,7 @@ contract ERC20 is ERC20Interface, AccessControl {
 
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
+        _allowed[account][account] = _balances[account];
         emit Transfer(address(0), account, amount);
     }
 

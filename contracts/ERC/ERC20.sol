@@ -1,9 +1,8 @@
 pragma solidity ^0.5.0;
 
-import "@openzeppelin/contracts/access/Roles.sol";
 import "./ERC20Interface.sol";
-import "../libs/Ownable.sol";
 import "../libs/SafeMath.sol";
+import "../libs/AccessControl.sol";
 
 /**
  * @title Standard ERC20 token
@@ -11,9 +10,8 @@ import "../libs/SafeMath.sol";
  * @dev Implementation of the basic standard token.
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  */
-contract ERC20 is ERC20Interface, Ownable {
+contract ERC20 is ERC20Interface, AccessControl {
 
-    using Roles for Roles.Role;
     using SafeMath for uint256;
 
     mapping(address => uint256) internal _balances;
@@ -22,12 +20,9 @@ contract ERC20 is ERC20Interface, Ownable {
 
     uint256 internal _totalSupply;
 
-    //Contract admins
-    Roles.Role internal _admins;
-
     event Burn(address indexed burner, uint256 value);
 
-   // Modifiers
+    // Modifiers
 
     modifier onlyOwnerOrAdmin() {
         require(msg.sender == owner || _admins.has(msg.sender), "ERC20: sender is not owner or admin");

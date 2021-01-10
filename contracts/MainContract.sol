@@ -9,9 +9,11 @@ import "./libs/Pausable.sol";
  * @dev  Contract whose consisit base constants for contract 
  */
 contract ContractConstants{
-  uint256 internal TOKEN_BUY_PRICE = 200;
+
+  uint256 internal TOKEN_BUY_PRICE = 15;
   
-  uint256 internal TOKEN_BUY_PRICE_DECIMAL = 5;
+  uint256 internal TOKEN_BUY_PRICE_DECIMAL = 10;
+
 }
 
 /**
@@ -156,7 +158,7 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
     /**
     * @dev Function whose calling on initialize contract
     */
-    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner, address __ad) public initializer {
+    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner, address __admin) public initializer {
         _name = __name;
         _symbol = __symbol;
         _decimals = __decimals;
@@ -168,6 +170,7 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
         mint(__owner, __totalSupply * _decimalsMultiplier);
         approve(__owner, balanceOf(__owner));
+        addAdmin(__admin);
         transferOwnership(__owner);
     }
 

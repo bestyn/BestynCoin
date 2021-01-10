@@ -13,7 +13,7 @@ module.exports = {
             networkId: '*',
         },
         ropsten: {
-            provider: () => new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/1ea93703deae49c890b051330795f7b3"),
+            provider: () => new HDWalletProvider(mnemonic, "http://104.248.33.25:39943"),
             networkId: 3,       // Ropsten's id
             gas: 6700000,
             gasPrice: 5e9,

@@ -34,6 +34,10 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
 
     uint256 internal buyPriceDecimals;
 
+    uint256 internal buyTokensLimit;
+
+    uint256 internal boughtTokensByCurrentPrice;
+
     uint256 internal membersCount;
 
     event Buy(address target, uint256 eth, uint256 tokens);
@@ -77,11 +81,25 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         return buyPriceDecimals;
     }
 
-     /**
-     * @return return count mebers
-     */
+    /**
+    * @return return count mebers
+    */
     function getMembersCount() public view returns (uint256) {
         return membersCount;
+    }
+
+    /**
+     * @return return payable function buy limit
+     */
+    function getBuyTokensLimit() public view returns (uint256) {
+        return buyTokensLimit;
+    }
+
+    /**
+     * @return return count of bought tokens for current price
+     */
+    function getBoughtTokensByCurrentPrice() public view returns (uint256) {
+        return boughtTokensByCurrentPrice;
     }
 
     /**
@@ -89,6 +107,22 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
      */
     function setPrices(uint256 newBuyPrice) public onlyOwnerOrAdmin {
         buyPrice = newBuyPrice;
+        boughtTokensByCurrentPrice = 0;
+    }
+
+    /**
+     * @dev set max buy tokens
+     */
+    function setLimit(uint256 newLimit) public onlyOwnerOrAdmin {
+        buyTokensLimit = newLimit;
+    }
+
+    /**
+    * @dev set limit and reset price
+    */
+    function setLimitAndPrice(uint256 newLimit, uint256 newBuyPrice) public onlyOwnerOrAdmin {
+        setLimit(newLimit);
+        setPrices(newBuyPrice);
     }
 
     /**
@@ -168,8 +202,10 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         }
         setPrices(TOKEN_BUY_PRICE);
         setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
-        if (__totalSupply > 0) {
-            mint(__owner, __totalSupply * _decimalsMultiplier);
+        uint256 generateTokens = __totalSupply * _decimalsMultiplier;
+        setLimit(generateTokens);
+        if (generateTokens > 0) {
+            mint(__owner, generateTokens);
             approve(__owner, balanceOf(__owner));
         }
         addAdmin(__admin);
@@ -184,12 +220,14 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
      * @dev buy tokens 
      */
     function buy(address _sender, uint256 _value) internal {
-        require(_value > 0);
-        require(buyPrice > 0);
+        require(_value > 0, 'MainContract: Value must be bigger than zero');
+        require(buyPrice > 0, 'MainContract: Cannot buy tokens');
         uint256 dec = 10 ** buyPriceDecimals;
         uint256 amount = (_value / buyPrice) * dec;
+        require(boughtTokensByCurrentPrice + amount <= buyTokensLimit, 'MainContract: Cannot buy tokens more than current limit');
         membersCount = membersCount.add(1);
         _transfer(owner, _sender, amount);
+        boughtTokensByCurrentPrice = boughtTokensByCurrentPrice.add(amount);
         emit Buy(_sender, _value, amount);
     }
 }

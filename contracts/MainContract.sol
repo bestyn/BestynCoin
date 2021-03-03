@@ -1,26 +1,26 @@
 pragma solidity ^0.5.0;
 
-import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./libs/FreezableToken.sol";
 import "./libs/Pausable.sol";
 
-/** 
- * @title Contract constants 
- * @dev  Contract whose consisit base constants for contract 
+/**
+ * @title Contract constants
+ * @dev  Contract whose consisit base constants for contract
  */
-contract ContractConstants{
+contract ContractConstants {
 
-  uint256 internal TOKEN_BUY_PRICE = 15;
-  
-  uint256 internal TOKEN_BUY_PRICE_DECIMAL = 10;
+    uint256 internal TOKEN_BUY_PRICE;
 
+    uint256 internal TOKEN_BUY_PRICE_DECIMAL;
+
+    uint256 internal TOKENS_BUY_LIMIT;
 }
 
 /**
  * @title MainContract
  * @dev Base contract which using for initializing new contract
  */
-contract MainContract is ContractConstants, FreezableToken, Pausable, Initializable {
+contract MainContract is ContractConstants, FreezableToken, Pausable {
 
     string private _name;
 
@@ -42,9 +42,9 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
 
     event Buy(address target, uint256 eth, uint256 tokens);
 
-    constructor (string memory name, string memory symbol, uint decimals, uint totalSupply, address owner, address admin) public {
-        init(name, symbol, decimals, totalSupply, owner, admin);
-    }
+    event NewLimit(uint256 prevLimit, uint256 newLimit);
+
+    event SetNewPrice(uint256 prevPrice, uint256 newPrice);
 
     /**
      * @return get token name
@@ -106,7 +106,11 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
      * @dev set prices for sell tokens and buy tokens
      */
     function setPrices(uint256 newBuyPrice) public onlyOwnerOrAdmin {
+
+        emit SetNewPrice(buyPrice, newBuyPrice);
+
         buyPrice = newBuyPrice;
+
         boughtTokensByCurrentPrice = 0;
     }
 
@@ -114,6 +118,9 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
      * @dev set max buy tokens
      */
     function setLimit(uint256 newLimit) public onlyOwnerOrAdmin {
+
+        emit NewLimit(buyTokensLimit, newLimit);
+
         buyTokensLimit = newLimit;
     }
 
@@ -192,7 +199,7 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
     /**
     * @dev Function whose calling on initialize contract
     */
-    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner, address __admin) public initializer {
+    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner, address __admin) public {
         _name = __name;
         _symbol = __symbol;
         _decimals = __decimals;
@@ -203,7 +210,7 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         setPrices(TOKEN_BUY_PRICE);
         setPricesDecimals(TOKEN_BUY_PRICE_DECIMAL);
         uint256 generateTokens = __totalSupply * _decimalsMultiplier;
-        setLimit(generateTokens);
+        setLimit(TOKENS_BUY_LIMIT);
         if (generateTokens > 0) {
             mint(__owner, generateTokens);
             approve(__owner, balanceOf(__owner));
@@ -216,18 +223,26 @@ contract MainContract is ContractConstants, FreezableToken, Pausable, Initializa
         buy(msg.sender, msg.value);
     }
 
+    function calculateBuyTokens(uint256 _value) public view returns (uint256) {
+        uint256 buyDecimal = 10 ** buyPriceDecimals;
+        return (_value * _decimalsMultiplier) / (buyPrice * buyDecimal);
+    }
+
     /**
      * @dev buy tokens 
      */
     function buy(address _sender, uint256 _value) internal {
         require(_value > 0, 'MainContract: Value must be bigger than zero');
         require(buyPrice > 0, 'MainContract: Cannot buy tokens');
-        uint256 dec = 10 ** buyPriceDecimals;
-        uint256 amount = (_value / buyPrice) * dec;
-        require(boughtTokensByCurrentPrice + amount <= buyTokensLimit, 'MainContract: Cannot buy tokens more than current limit');
+        require(boughtTokensByCurrentPrice < buyTokensLimit, 'MainContract: Cannot buy tokens more than current limit');
+        uint256 amount = this.calculateBuyTokens(_value);
+        if (boughtTokensByCurrentPrice + amount > buyTokensLimit) {
+            amount = buyTokensLimit - boughtTokensByCurrentPrice;
+        }
         membersCount = membersCount.add(1);
         _transfer(owner, _sender, amount);
         boughtTokensByCurrentPrice = boughtTokensByCurrentPrice.add(amount);
+        address(uint160(owner)).transfer(_value);
         emit Buy(_sender, _value, amount);
     }
 }

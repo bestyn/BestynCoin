@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "@openzeppelin/contracts-ethereum-package/contracts/access/Roles.sol";
 import "./Ownable.sol";
 
-contract AccessControl is Ownable{
+contract AccessControl is Ownable {
 
     using Roles for Roles.Role;
 

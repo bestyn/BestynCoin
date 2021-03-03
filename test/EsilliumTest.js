@@ -332,4 +332,26 @@ describe('ERC20', function () {
         receipt = await this.erc20.finishMinting({from: sender});
         expectEvent(receipt, 'MintFinished');
     });
+
+    it('Check buy tokens', async function () {
+        expect(await this.erc20.getBoughtTokensByCurrentPrice()).to.be.bignumber.equal(new BN(0));
+        expect(await this.erc20.getBuyTokensLimit()).to.be.bignumber.equal(new BN(totalSupply * 10 ** decimals));
+
+        let receipt = await this.erc20.setPrices(totalSupply * 10 ** decimals, {from: sender});
+
+        expectEvent(receipt, 'SetNewPrice');
+
+        // Check buying tokens
+
+
+        receipt = await this.erc20.sendTransaction({from: receiver, value: 1000000000000000000});
+
+        expectEvent(receipt, 'Buy');
+
+        let tokensAmount = await this.erc20.calculateBuyTokens(new BN(1000000000000000000).toString());
+
+        console.log(tokensAmount);
+        expect(await this.erc20.getBoughtTokensByCurrentPrice()).to.be.bignumber.equal(new BN(0));
+
+    });
 });

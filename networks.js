@@ -11,9 +11,10 @@ module.exports = {
             gas: 6700000,
             gasPrice: 5e9,
             networkId: '*',
+
         },
         ropsten: {
-            provider: () => new HDWalletProvider(mnemonic, "http://104.248.33.25:39943"),
+            provider: () => new HDWalletProvider(mnemonic, "https://ledger.orderbook.fun/MLW2HyDB2CULJMnZUteeELsPDJPJewCZyNLqwn53cbyR6LaXww/"),
             networkId: 3,       // Ropsten's id
             gas: 6700000,
             gasPrice: 5e9,

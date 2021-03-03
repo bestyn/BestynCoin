@@ -1,7 +1,18 @@
 pragma solidity ^0.5.0;
 
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./MainContract.sol";
 
-contract Esillium is MainContract {
-     constructor () MainContract('Esillium', '8YB', 5, 700000000, 0xa1acfB20b6552F73a0Eb6129159E64093e4A5303, 0xFB1f8e03D7D0D20E54467c4B18D890a40C587D7f) public {}
+contract Esillium is MainContract, Initializable {
+
+     constructor () public {initialize();}
+
+     function initialize() public initializer {
+          owner = msg.sender;
+          // First stage config, ETH/USD price : 1605.73
+          TOKEN_BUY_PRICE = 31172;
+          TOKEN_BUY_PRICE_DECIMAL = 10;
+          TOKENS_BUY_LIMIT = 359200000000;
+          init('Esillium', '8YB', 5, 7000000000, msg.sender, 0x51b8Aa6616B868a4F36b0b3C6Db46B015c5467D6);
+     }
 }

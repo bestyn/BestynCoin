@@ -23,7 +23,7 @@ contract MintableToken is ERC20 {
     }
 
     modifier hasMintPermission() {
-        require(msg.sender == owner || _admins.has(msg.sender), "MintableToken: sender has not permissions");
+        require(msg.sender == owner, "MintableToken: sender has not permissions");
         _;
     }
 
@@ -43,13 +43,13 @@ contract MintableToken is ERC20 {
      * @dev Function to stop minting new tokens.
      * @return True if the operation was successful.
      */
-    function finishMinting() public onlyOwnerOrAdmin canMint returns (bool) {
+    function finishMinting() public canMint returns (bool) {
         mintingFinished = true;
         emit MintFinished();
         return true;
     }
 
-    function startMinting() public onlyOwnerOrAdmin returns (bool) {
+    function startMinting() public returns (bool) {
         mintingFinished = false;
         emit MintStarted();
         return true;

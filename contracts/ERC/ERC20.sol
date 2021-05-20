@@ -10,7 +10,7 @@ import "../libs/AccessControl.sol";
  * @dev Implementation of the basic standard token.
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  */
-contract ERC20 is ERC20Interface, AccessControl {
+contract ERC20 is ERC20Interface, Ownable {
 
     using SafeMath for uint256;
 
@@ -19,18 +19,6 @@ contract ERC20 is ERC20Interface, AccessControl {
     mapping(address => mapping(address => uint256)) internal _allowed;
 
     uint256 internal _totalSupply;
-
-    event Burn(address indexed burner, uint256 value);
-
-    // Modifiers
-
-    modifier onlyOwnerOrAdmin() {
-        require(msg.sender == owner || _admins.has(msg.sender), "ERC20: sender is not owner or admin");
-        _;
-    }
-
-    // Functions
-
 
     /**
     * @dev Total number of tokens in existence
@@ -121,38 +109,6 @@ contract ERC20 is ERC20Interface, AccessControl {
         require(subtractedValue > 0, "ERC20: value must be bigger than zero");
         _approve(msg.sender, spender, _allowed[msg.sender][spender].sub(subtractedValue));
         return true;
-    }
-
-    /**
-     * @dev Internal function that burns an amount of the token of a given
-     * account.
-     * @param account The account whose tokens will be burnt.
-     * @param amount The amount that will be burnt.
-     */
-    function _burn(address account, uint256 amount) internal {
-        require(account != address(0), "ERC20: transfer to the zero address");
-        require(amount > 0, "ERC20: value must be bigger than zero");
-        require(amount <= _balances[account], "ERC20: account balance is lower than amount");
-
-        _totalSupply = _totalSupply.sub(amount);
-        _balances[account] = _balances[account].sub(amount);
-        emit Transfer(account, address(0), amount);
-        emit Burn(account, amount);
-    }
-
-    /**
-     * @dev Internal function that burns an amount of the token of a given
-     * account, deducting from the sender's allowance for said account. Uses the
-     * internal burn function.
-     * @param account The account whose tokens will be burnt.
-     * @param amount The amount that will be burnt.
-     */
-    function _burnFrom(address account, uint256 amount) internal {
-        require(account != address(0), "ERC20: transfer to the zero address");
-        require(amount > 0, "ERC20: value must be bigger than zero");
-        require(amount <= _allowed[account][msg.sender] || _admins.has(msg.sender), "ERC20: account allowed balance is lower than amount");
-        _burn(account, amount);
-        _approve(account, msg.sender, _allowed[account][msg.sender].sub(amount));
     }
 
     /**

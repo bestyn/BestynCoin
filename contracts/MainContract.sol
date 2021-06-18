@@ -75,7 +75,7 @@ contract MainContract is ERC20 {
     /**
     * @dev Function whose calling on initialize contract
     */
-    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) public {
+    function init(string memory __name, string memory __symbol, uint __decimals, uint __totalSupply, address __owner) internal {
         _name = __name;
         _symbol = __symbol;
         _decimals = __decimals;
@@ -83,10 +83,15 @@ contract MainContract is ERC20 {
         uint256 generateTokens = __totalSupply * _decimalsMultiplier;
         _mint(__owner, generateTokens);
         approve(__owner, balanceOf(__owner));
-        transferOwnership(__owner);
+        _transferOwnership(__owner);
     }
 
     function() external payable {
         revert();
+    }
+
+    function convertIntToUInt(int j) public view returns (uint){
+        int i = 1;
+        return uint(i) + uint(j);
     }
 }

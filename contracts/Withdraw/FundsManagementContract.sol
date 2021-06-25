@@ -10,7 +10,7 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     /// @dev ERC20 base contract
     address public erc20Contract;
 
-    constructor(address _contract) {
+    constructor(address _contract) public {
         erc20Contract = _contract;
         owner = msg.sender;
     }

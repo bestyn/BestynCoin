@@ -5,7 +5,7 @@ import "./MainContract.sol";
 
 contract Esillium is MainContract, Initializable {
 
-//     constructor () public {initialize();}
+     constructor () public {initialize();}
 
      function initialize() public initializer {
           owner = msg.sender;

@@ -31,5 +31,11 @@ module.exports = {
             gas: 6700000,
             gasPrice: 5e9,
         },
+        bsctest: {
+           provider: () => new PrivateKeyProvider("eb3ac76c0a38b54d14042ebc75386b801037b1e0eb87cbe6eceffbf7062c797e", "https://data-seed-prebsc-1-s1.binance.org:8545"),
+           networkId: 97,       // Binance Smart Chain Testnet id
+//           gas: 9900000,
+//           gasPrice: 5e9,
+        },
     },
 };

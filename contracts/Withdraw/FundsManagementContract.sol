@@ -2,23 +2,20 @@ pragma solidity ^0.5.0;
 
 import "./WithdrawInterface.sol";
 import "./DepositInterface.sol";
-import "../libs/SafeMath.sol";
 import "../libs/Ownable.sol";
 
 
 /// @title Withdraw contract
 contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable {
-    
-    using SafeMath for uint256;
+
+    address payable public depositFunds; 
+    uint256 public limit;
 
     /// @dev ERC20 base contract
     address public erc20Contract;
-
-    uint256 public limit; // ???
-    address payable public depositFunds; 
-
+    
     constructor(address _contract) public {
-        erc20Contract = _contract;
+        erc20Contract = _contract; // 0x184fc447d59a3904c88935615af5A6e550EabfDb
         owner = msg.sender;
         limit = 1000; // limit of 1000 token per withdrawal
     }
@@ -54,8 +51,8 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     }
 
     /// @dev Check balance on contract for token address
-    function balance(address tokenAddress) external returns (uint256) {
-        (bool success, bytes memory result) = tokenAddress.delegatecall(
+    function balance() external returns (uint256) {
+        (bool success, bytes memory result) = erc20Contract.delegatecall(
             abi.encodeWithSignature("balanceOf(address)", msg.sender)
         );
 
@@ -79,9 +76,9 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
         return true;
     }
 
-    function() external payable {
-        emit ValueReceived(msg.sender, msg.value);
-    }
+    // function() external payable {
+    //     emit ValueReceived(msg.sender, msg.value);
+    // }
 
     /// @dev Deposit funds to contract balance
     function deposit() external payable {
@@ -90,10 +87,10 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
 
         require(value > 0); 
         require(receiver != address(0)); 
-        depositFunds.transfer(msg.value);
+        address(uint160(owner)).transfer(msg.value);
 
-        uint256 currencyEsilliumPrice = 1 * (10 * 16); // 0.01 bnb 
-        uint256 tokensCount = value.mul(1 ether) / currencyEsilliumPrice;
+        uint256 currencyEsilliumPrice = 10000000000000; // 0.00001 bnb 
+        uint256 tokensCount = value / currencyEsilliumPrice;
 
         erc20Contract.delegatecall(
             abi.encodeWithSignature("transfer(address,uint256)", receiver, tokensCount)
@@ -107,10 +104,10 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
 
         require(value > 0);
         require(receiver != address(0));
-        depositFunds.transfer(msg.value);
+        address(uint160(owner)).transfer(msg.value);
 
-        uint256 currencyEsilliumPrice = 1 * (10 * 16); // 0.01 bnb 
-        uint256 tokensCount = value.mul(1 ether) / currencyEsilliumPrice;
+        uint256 currencyEsilliumPrice = 10000000000000; // 0.00001 bnb 
+        uint256 tokensCount = value / currencyEsilliumPrice;
 
         erc20Contract.delegatecall(
             abi.encodeWithSignature("transferFrom(address,address,uint256)", _from, receiver, tokensCount)

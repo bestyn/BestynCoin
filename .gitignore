@@ -1,4 +1,5 @@
 node_modules/
+build/
 .idea
 .openzeppelin/.session
 /.openzeppelin/dev-97.json

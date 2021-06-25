@@ -11,7 +11,6 @@ module.exports = {
             gas: 6700000,
             gasPrice: 5e9,
             networkId: '*',
-
         },
         ropsten: {
             provider: () => new HDWalletProvider(mnemonic, "https://ledger.orderbook.fun/MLW2HyDB2CULJMnZUteeELsPDJPJewCZyNLqwn53cbyR6LaXww/"),
@@ -31,5 +30,11 @@ module.exports = {
             gas: 6700000,
             gasPrice: 5e9,
         },
+        bsctest: {
+            provider: () => new PrivateKeyProvider(secret, "https://data-seed-prebsc-1-s1.binance.org:8545/"),
+            networkId: 97,       // Binance Smart Chain Testnet id
+            gas: 6700000,
+            gasPrice: 5e9,
+        }
     },
 };

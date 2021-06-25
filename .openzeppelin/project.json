@@ -1,7 +1,8 @@
 {
   "manifestVersion": "2.2",
   "contracts": {
-    "Esillium": "Esillium"
+    "Esillium": "Esillium",
+    "FundsManagementContract": "FundsManagementContract"
   },
   "dependencies": {},
   "name": "esilliumcontract",

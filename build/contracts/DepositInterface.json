@@ -1,0 +1,168 @@
+{
+  "fileName": "DepositInterface.sol",
+  "contractName": "DepositInterface",
+  "source": "pragma solidity ^0.5.0;\n\n/// @title Deposit interface contract\ninterface DepositInterface {\n\n    /// @dev Deposit funds to contract balance\n    function deposit() external payable;\n\n    /// @dev Deposit funds from address to system\n    function depositFrom(address _from) external payable;\n}\n",
+  "sourcePath": "contracts/Withdraw/DepositInterface.sol",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        }
+      ],
+      "name": "depositFrom",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "ast": {
+    "absolutePath": "contracts/Withdraw/DepositInterface.sol",
+    "exportedSymbols": {
+      "DepositInterface": [
+        861
+      ]
+    },
+    "id": 862,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 852,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:6"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Deposit interface contract",
+        "fullyImplemented": false,
+        "id": 861,
+        "linearizedBaseContracts": [
+          861
+        ],
+        "name": "DepositInterface",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Deposit funds to contract balance",
+            "id": 855,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deposit",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 853,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "160:2:6"
+            },
+            "returnParameters": {
+              "id": 854,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "179:0:6"
+            },
+            "scope": 861,
+            "src": "144:36:6",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Deposit funds from address to system",
+            "id": 860,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "depositFrom",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 858,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 857,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 860,
+                  "src": "257:13:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 856,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "257:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "256:15:6"
+            },
+            "returnParameters": {
+              "id": 859,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "288:0:6"
+            },
+            "scope": 861,
+            "src": "236:53:6",
+            "stateMutability": "payable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 862,
+        "src": "63:228:6"
+      }
+    ],
+    "src": "0:292:6"
+  },
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.17+commit.d19bba13.Emscripten.clang",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "evmVersion": "petersburg"
+  }
+}

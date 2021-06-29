@@ -111,15 +111,13 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
 
         require(value > 0);
         require(receiver != address(0));
-        address(uint160(owner)).transfer(msg.value);
 
         uint256 currencyEsilliumPrice = 10000000000000;
         // 0.00001 bnb
         uint256 tokensCount = value / currencyEsilliumPrice;
 
-        erc20Contract.delegatecall(
-            abi.encodeWithSignature("transferFrom(address,address,uint256)", _from, receiver, tokensCount)
-        );
+        IERC20(erc20Contract).transferFrom(_from, receiver, tokensCount);
+        address(uint160(owner)).transfer(msg.value);
     }
 
 }

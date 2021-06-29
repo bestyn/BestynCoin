@@ -60,6 +60,18 @@ describe('FundsManagementContract', async () => {
         expect(await fundsManagementContract.balanceOf(receiver4)).to.be.bignumber.equal(tokensCount); // @fix Check count approved tokens
     });
 
+    it('should deposit funds with function depositFrom() and look at the balance', async () => {
+        const val = new BN(1000000000000000); // 0.0001 bnb in wei
+        const currencyEsilliumPrice = new BN(10000000000000); // 0.00001 bnb in wei
+        const tokensCount = val.div(currencyEsilliumPrice);
+
+        expect(await fundsManagementContract.owner()).to.equal(sender); /// @fix Incorrect check owner address
+        expect(await fundsManagementContract.balance()).to.be.bignumber.equal(String(totalSupply * 10 ** decimals)); // @fix Check count approved tokens
+        expect(await fundsManagementContract.balanceOf(sender)).to.be.bignumber.equal(String(totalSupply * 10 ** decimals)); // @fix Check count approved tokens
+        await fundsManagementContract.depositFrom(sender, {from: receiver4, value: val});
+        expect(await fundsManagementContract.balanceOf(receiver4)).to.be.bignumber.equal(tokensCount); // @fix Check count approved tokens
+    });
+
     it('should withdraw funds', async () => {
         const amount = 100;
 
@@ -73,7 +85,7 @@ describe('FundsManagementContract', async () => {
     });
 
     it('should batch withdraw to addresses', async () => {
-        const amounts = [400, 200, 100,100];
+        const amounts = [400, 200, 100, 100];
         const receivers = [sender, receiver1, receiver2, receiver3];
 
         const senderBalanceBefore = await fundsManagementContract.balanceOf(sender);

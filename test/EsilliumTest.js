@@ -27,8 +27,7 @@ describe('ERC20', function () {
     });
 
     it('deployer is owner', async function () {
-//        expect(await this.erc20.owner()).to.equal(owner);
-        expect(await this.erc20.convertIntToUInt(2)).to.equal("3");
+        expect(await this.erc20.owner()).to.equal(owner);
     });
 
     it('check contract owner', async function () {

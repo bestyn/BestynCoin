@@ -35,14 +35,14 @@
     "absolutePath": "contracts/Withdraw/DepositInterface.sol",
     "exportedSymbols": {
       "DepositInterface": [
-        861
+        2001
       ]
     },
-    "id": 862,
+    "id": 2002,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 852,
+        "id": 1992,
         "literals": [
           "solidity",
           "^",
@@ -50,7 +50,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:6"
+        "src": "0:23:8"
       },
       {
         "baseContracts": [],
@@ -58,9 +58,9 @@
         "contractKind": "interface",
         "documentation": "@title Deposit interface contract",
         "fullyImplemented": false,
-        "id": 861,
+        "id": 2001,
         "linearizedBaseContracts": [
-          861
+          2001
         ],
         "name": "DepositInterface",
         "nodeType": "ContractDefinition",
@@ -68,26 +68,26 @@
           {
             "body": null,
             "documentation": "@dev Deposit funds to contract balance",
-            "id": 855,
+            "id": 1995,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "deposit",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 853,
+              "id": 1993,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "160:2:6"
+              "src": "160:2:8"
             },
             "returnParameters": {
-              "id": 854,
+              "id": 1994,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "179:0:6"
+              "src": "179:0:8"
             },
-            "scope": 861,
-            "src": "144:36:6",
+            "scope": 2001,
+            "src": "144:36:8",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "external"
@@ -95,23 +95,23 @@
           {
             "body": null,
             "documentation": "@dev Deposit funds from address to system",
-            "id": 860,
+            "id": 2000,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "depositFrom",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 858,
+              "id": 1998,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 857,
+                  "id": 1997,
                   "name": "_from",
                   "nodeType": "VariableDeclaration",
-                  "scope": 860,
-                  "src": "257:13:6",
+                  "scope": 2000,
+                  "src": "257:13:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -119,10 +119,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 856,
+                    "id": 1996,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "257:7:6",
+                    "src": "257:7:8",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -133,26 +133,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "256:15:6"
+              "src": "256:15:8"
             },
             "returnParameters": {
-              "id": 859,
+              "id": 1999,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "288:0:6"
+              "src": "288:0:8"
             },
-            "scope": 861,
-            "src": "236:53:6",
+            "scope": 2001,
+            "src": "236:53:8",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 862,
-        "src": "63:228:6"
+        "scope": 2002,
+        "src": "63:228:8"
       }
     ],
-    "src": "0:292:6"
+    "src": "0:292:8"
   },
   "bytecode": "0x",
   "deployedBytecode": "0x",

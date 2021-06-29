@@ -18,24 +18,31 @@ describe('FundsManagementContract', async () => {
     let erc20;
     let erc20contractAddress;
 
-    const [sender, receiver1, receiver2, receiver3] = accounts;
-    console.log('Sender : ', sender); 
+    const [sender, receiver1, receiver2, receiver3, receiver4] = accounts;
+    console.log('Sender : ', sender);
+
+    /// Token data
+
+        const totalSupply = 7000000000;
+        const decimals = 5;
 
     beforeEach(async () => {
         erc20 = await ERC20.new({from: sender});
         erc20contractAddress = erc20.address;
-
         fundsManagementContract = await FundsManagementContract.new(erc20contractAddress, {from: sender});
+
+        await erc20.approve(fundsManagementContract.address, totalSupply * 10 ** decimals, {from : sender}); /// @fix Added approve for transfer tokens
     });
 
-    xit('should set new contract address', async () => {
-        const newAddress = '';
-        await fundsManagementContract.setNewContract(newAddr, {from: sender});
+    it('should set new contract address', async () => {
+        const newAddress = await ERC20.new({from: receiver4});
+
+        await fundsManagementContract.setNewContract(newAddress.address, {from: sender});
                                                       
-        expect(await fundsManagementContract.erc20Contract()).to.equal(newAddr);
+        expect(await fundsManagementContract.erc20Contract()).to.equal(newAddress.address);
     });
 
-    xit('should set new Limit for withdraw', async () => {
+    it('should set new Limit for withdraw', async () => {
         const newLimit = new BN(2000)
         await fundsManagementContract.setNewLimit(newLimit, {from: sender});
         expect(await fundsManagementContract.limit()).to.be.bignumber.equal(newLimit);
@@ -44,40 +51,42 @@ describe('FundsManagementContract', async () => {
     it('should deposit funds and look at the balance', async () => {
         const val = new BN(1000000000000000); // 0.0001 bnb in wei
         const currencyEsilliumPrice = new BN(10000000000000); // 0.00001 bnb in wei
-        const tokensCount = val / currencyEsilliumPrice; 
+        const tokensCount = val.div(currencyEsilliumPrice);
 
-        await fundsManagementContract.deposit({from: sender, value: val});
-        expect(await fundsManagementContract.owner()).to.be.bignumber.equal(val);
-        expect(await fundsManagementContract.balance(erc20contractAddress, {from: sender})).to.be.bignumber.equal(tokensCount);
+        expect(await fundsManagementContract.owner()).to.equal(sender); /// @fix Incorrect check owner address
+        expect(await fundsManagementContract.balance()).to.be.bignumber.equal(String(totalSupply * 10 ** decimals)); // @fix Check count approved tokens
+        expect(await fundsManagementContract.balanceOf(sender)).to.be.bignumber.equal(String(totalSupply * 10 ** decimals)); // @fix Check count approved tokens
+        await fundsManagementContract.deposit({from: receiver4, value: val});
+        expect(await fundsManagementContract.balanceOf(receiver4)).to.be.bignumber.equal(tokensCount); // @fix Check count approved tokens
     });
 
-    xit('should withdraw funds', async () => {
+    it('should withdraw funds', async () => {
         const amount = 100;
 
-        const senderBalanceBefore = await fundsManagementContract.balance({from: sender});
-        const receiver1BalanceBefore = await fundsManagementContract.balance({from: receiver1});
+        const senderBalanceBefore = await fundsManagementContract.balanceOf(sender);
+        const receiver1BalanceBefore = await fundsManagementContract.balanceOf(receiver1);
 
-        await fundsManagementContract.withdraw(receiver, amount, {from: sender});
+        await fundsManagementContract.withdraw(receiver1, amount, {from: sender});
 
-        expect(await fundsManagementContract.balance({from: sender})).to.equal(senderBalanceBefore - amount);
-        expect(await fundsManagementContract.balance({from: receiver1})).to.equal(receiver1BalanceBefore + amount);
+        expect(await fundsManagementContract.balanceOf(sender)).to.bignumber.equal(String(senderBalanceBefore - amount));
+        expect(await fundsManagementContract.balanceOf(receiver1)).to.bignumber.equal(String(receiver1BalanceBefore + amount));
     });
 
     xit('should batch withdraw to addresses', async () => {
         const amounts = 300;
         const receivers = [sender, receiver1, receiver2, receiver3];
 
-        const senderBalanceBefore = await fundsManagementContract.balance({from: sender});
-        const receiverBalance1Before = await fundsManagementContract.balance({from: receiver1});
-        const receiverBalance2Before = await fundsManagementContract.balance({from: receiver2});
-        const receiverBalance3Before = await fundsManagementContract.balance({from: receiver3});
+        const senderBalanceBefore = await fundsManagementContract.balanceOf(sender);
+        const receiverBalance1Before = await fundsManagementContract.balanceOf(receiver1);
+        const receiverBalance2Before = await fundsManagementContract.balanceOf(receiver2);
+        const receiverBalance3Before = await fundsManagementContract.balanceOf(receiver3);
 
         await fundsManagementContract.batchWithdraw(receivers, amounts, {from: sender});
 
-        expect(await fundsManagementContract.balance({from: sender})).to.equal(senderBalanceBefore - amounts);
-        expect(await fundsManagementContract.balance({from: receiver1})).to.equal(receiverBalance1Before + (amounts / 3));
-        expect(await fundsManagementContract.balance({from: receiver2})).to.equal(receiverBalance2Before + (amounts / 3));
-        expect(await fundsManagementContract.balance({from: receiver3})).to.equal(receiverBalance3Before + (amounts / 3));
+        expect(await fundsManagementContract.balanceOf(sender)).to.equal(senderBalanceBefore - amounts);
+        expect(await fundsManagementContract.balanceOf(receiver1)).to.equal(receiverBalance1Before + (amounts / 3));
+        expect(await fundsManagementContract.balanceOf(receiver2)).to.equal(receiverBalance2Before + (amounts / 3));
+        expect(await fundsManagementContract.balanceOf(receiver3)).to.equal(receiverBalance3Before + (amounts / 3));
     });
 });
 

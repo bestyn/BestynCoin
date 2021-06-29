@@ -8,7 +8,7 @@ const {
 } = require('@openzeppelin/test-helpers');
 
 const FundsManagementContract = contract.fromArtifact('FundsManagementContract');
-const ERC20 = contract.fromArtifact('Esillium');
+const ERC20 = contract.fromArtifact('BaniContract');
 
 // const erc20contractAddr = '0x184fc447d59a3904c88935615af5A6e550EabfDb'; // bsc test
 

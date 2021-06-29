@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./MainContract.sol";
 
-contract Esillium is MainContract, Initializable {
+contract BaniContract is MainContract, Initializable {
 
      constructor () public {initialize();}
 

@@ -7,7 +7,7 @@ const {
     expectRevert, // Assertions for transactions that should fail
 } = require('@openzeppelin/test-helpers');
 
-const ERC20 = contract.fromArtifact('Esillium');
+const ERC20 = contract.fromArtifact('BaniContract');
 
 describe('ERC20', function () {
 

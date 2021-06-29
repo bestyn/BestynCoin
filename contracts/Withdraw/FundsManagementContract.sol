@@ -15,10 +15,14 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     /// @dev ERC20 base contract
     address public erc20Contract;
 
+    /// @dev ERC20 base contract
+    address public tokensOwner;
+
     constructor(address _contract) public {
         erc20Contract = _contract;
         // 0x184fc447d59a3904c88935615af5A6e550EabfDb
         owner = msg.sender;
+        tokensOwner = msg.sender;
         limit = 1000;
         // limit of 1000 token per withdrawal
     }
@@ -45,8 +49,7 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     function withdraw(address to, uint256 amount) external returns (bool) {
         require(amount <= limit, 'you cannot withdraw so much money at a time');
 
-        address tokensOwner = Ownable(erc20Contract).owner();
-        bool success = IERC20.transferFrom(tokensOwner, to, amount);
+        bool success = IERC20(erc20Contract).transferFrom(tokensOwner, to, amount);
 
         emit Withdraw(msg.sender, to, amount, success);
         return success;
@@ -54,7 +57,6 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
 
     /// @dev Check balance on contract for token address
     function balance() view external returns (uint256) {
-        address tokensOwner = Ownable(erc20Contract).owner();
         return IERC20(erc20Contract).allowance(tokensOwner, address(this));
     }
 
@@ -63,19 +65,21 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     }
 
     /// @dev Batch withdraw to addresses
-    function batchWithdraw(address [] calldata to, uint256 amounts) external returns (bool) {
+    function batchWithdraw(address [] calldata to, uint256 [] calldata amounts) external returns (bool) {
         require(to.length > 0);
-        require(amounts <= limit, 'you cannot withdraw so much money at a time');
+        require(to.length == amounts.length, 'invalid data');
 
-        uint256 amount = amounts / to.length;
+        uint256 fullAmounts = 0;
+        for (uint32 i = 0; i < amounts.length; i++) {
+            fullAmounts += amounts[i];
+        }
+        require(fullAmounts <= limit, 'you cannot withdraw so much money at a time');
 
         for (uint32 i = 0; i < to.length; i++) {
-            (bool success, bytes memory res) = erc20Contract.delegatecall(
-                abi.encodeWithSignature("transferFrom(address,address,uint256)", msg.sender, to[i], amount)
-            );
+            IERC20(erc20Contract).transferFrom(tokensOwner, to[i], amounts[i]);
         }
 
-        emit BatchWithdraw(msg.sender, to, amounts, true);
+        emit BatchWithdraw(msg.sender, to, fullAmounts, true);
         return true;
     }
 

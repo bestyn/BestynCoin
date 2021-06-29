@@ -72,8 +72,8 @@ describe('FundsManagementContract', async () => {
         expect(await fundsManagementContract.balanceOf(receiver1)).to.bignumber.equal(String(receiver1BalanceBefore + amount));
     });
 
-    xit('should batch withdraw to addresses', async () => {
-        const amounts = 300;
+    it('should batch withdraw to addresses', async () => {
+        const amounts = [400, 200, 100,100];
         const receivers = [sender, receiver1, receiver2, receiver3];
 
         const senderBalanceBefore = await fundsManagementContract.balanceOf(sender);
@@ -83,10 +83,10 @@ describe('FundsManagementContract', async () => {
 
         await fundsManagementContract.batchWithdraw(receivers, amounts, {from: sender});
 
-        expect(await fundsManagementContract.balanceOf(sender)).to.equal(senderBalanceBefore - amounts);
-        expect(await fundsManagementContract.balanceOf(receiver1)).to.equal(receiverBalance1Before + (amounts / 3));
-        expect(await fundsManagementContract.balanceOf(receiver2)).to.equal(receiverBalance2Before + (amounts / 3));
-        expect(await fundsManagementContract.balanceOf(receiver3)).to.equal(receiverBalance3Before + (amounts / 3));
+        expect(await fundsManagementContract.balanceOf(sender)).to.bignumber.equal(String(senderBalanceBefore - amounts[0]));
+        expect(await fundsManagementContract.balanceOf(receiver1)).to.bignumber.equal(String(receiverBalance1Before + (amounts[1] / 3)));
+        expect(await fundsManagementContract.balanceOf(receiver2)).to.bignumber.equal(String(receiverBalance2Before + (amounts[2] / 3)));
+        expect(await fundsManagementContract.balanceOf(receiver3)).to.bignumber.equal(String(receiverBalance3Before + (amounts[3] / 3)));
     });
 });
 

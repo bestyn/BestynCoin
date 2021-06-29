@@ -13,5 +13,5 @@ interface WithdrawInterface {
     function balanceOf(address user) view external returns (uint256);
 
     /// @dev Batch withdraw to addresses
-    function batchWithdraw(address [] calldata to, uint256 amounts) external returns (bool);
+    function batchWithdraw(address [] calldata to, uint256 [] calldata amounts) external returns (bool);
 }

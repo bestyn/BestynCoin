@@ -1,7 +1,7 @@
 {
   "fileName": "WithdrawInterface.sol",
   "contractName": "WithdrawInterface",
-  "source": "pragma solidity ^0.5.0;\n\n/// @title Withdrawal contract interface\ninterface WithdrawInterface {\n\n    /// @dev Withdraw tokens to address\n    function withdraw(address to, uint256 amount) external returns (bool);\n\n    /// @dev Check balance on contract for token address\n    function balance() view external returns (uint256);\n\n    /// @dev Check user tokens balance\n    function balanceOf(address user) view external returns (uint256);\n\n    /// @dev Batch withdraw to addresses\n    function batchWithdraw(address [] calldata to, uint256 amounts) external returns (bool);\n}\n",
+  "source": "pragma solidity ^0.5.0;\n\n/// @title Withdrawal contract interface\ninterface WithdrawInterface {\n\n    /// @dev Withdraw tokens to address\n    function withdraw(address to, uint256 amount) external returns (bool);\n\n    /// @dev Check balance on contract for token address\n    function balance() view external returns (uint256);\n\n    /// @dev Check user tokens balance\n    function balanceOf(address user) view external returns (uint256);\n\n    /// @dev Batch withdraw to addresses\n    function batchWithdraw(address [] calldata to, uint256 [] calldata amounts) external returns (bool);\n}\n",
   "sourcePath": "contracts/Withdraw/WithdrawInterface.sol",
   "sourceMap": "",
   "deployedSourceMap": "",
@@ -51,9 +51,9 @@
           "type": "address[]"
         },
         {
-          "internalType": "uint256",
+          "internalType": "uint256[]",
           "name": "amounts",
-          "type": "uint256"
+          "type": "uint256[]"
         }
       ],
       "name": "batchWithdraw",
@@ -99,14 +99,14 @@
     "absolutePath": "contracts/Withdraw/WithdrawInterface.sol",
     "exportedSymbols": {
       "WithdrawInterface": [
-        2414
+        2429
       ]
     },
-    "id": 2415,
+    "id": 2430,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2382,
+        "id": 2396,
         "literals": [
           "solidity",
           "^",
@@ -122,9 +122,9 @@
         "contractKind": "interface",
         "documentation": "@title Withdrawal contract interface",
         "fullyImplemented": false,
-        "id": 2414,
+        "id": 2429,
         "linearizedBaseContracts": [
-          2414
+          2429
         ],
         "name": "WithdrawInterface",
         "nodeType": "ContractDefinition",
@@ -132,22 +132,22 @@
           {
             "body": null,
             "documentation": "@dev Withdraw tokens to address",
-            "id": 2391,
+            "id": 2405,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2387,
+              "id": 2401,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2384,
+                  "id": 2398,
                   "name": "to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2391,
+                  "scope": 2405,
                   "src": "159:10:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -156,7 +156,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2383,
+                    "id": 2397,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "159:7:10",
@@ -171,10 +171,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 2386,
+                  "id": 2400,
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2391,
+                  "scope": 2405,
                   "src": "171:14:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -183,7 +183,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2385,
+                    "id": 2399,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "171:7:10",
@@ -199,15 +199,15 @@
               "src": "158:28:10"
             },
             "returnParameters": {
-              "id": 2390,
+              "id": 2404,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2389,
+                  "id": 2403,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2391,
+                  "scope": 2405,
                   "src": "205:4:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -216,7 +216,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 2388,
+                    "id": 2402,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "205:4:10",
@@ -231,7 +231,7 @@
               ],
               "src": "204:6:10"
             },
-            "scope": 2414,
+            "scope": 2429,
             "src": "141:70:10",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -240,28 +240,28 @@
           {
             "body": null,
             "documentation": "@dev Check balance on contract for token address",
-            "id": 2396,
+            "id": 2410,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "balance",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2392,
+              "id": 2406,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "290:2:10"
             },
             "returnParameters": {
-              "id": 2395,
+              "id": 2409,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2394,
+                  "id": 2408,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2396,
+                  "scope": 2410,
                   "src": "316:7:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -270,7 +270,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2393,
+                    "id": 2407,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "316:7:10",
@@ -285,7 +285,7 @@
               ],
               "src": "315:9:10"
             },
-            "scope": 2414,
+            "scope": 2429,
             "src": "274:51:10",
             "stateMutability": "view",
             "superFunction": null,
@@ -294,22 +294,22 @@
           {
             "body": null,
             "documentation": "@dev Check user tokens balance",
-            "id": 2403,
+            "id": 2417,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "balanceOf",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2399,
+              "id": 2413,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2398,
+                  "id": 2412,
                   "name": "user",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2403,
+                  "scope": 2417,
                   "src": "389:12:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -318,7 +318,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2397,
+                    "id": 2411,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "389:7:10",
@@ -335,15 +335,15 @@
               "src": "388:14:10"
             },
             "returnParameters": {
-              "id": 2402,
+              "id": 2416,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2401,
+                  "id": 2415,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2403,
+                  "scope": 2417,
                   "src": "426:7:10",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -352,7 +352,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2400,
+                    "id": 2414,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "426:7:10",
@@ -367,7 +367,7 @@
               ],
               "src": "425:9:10"
             },
-            "scope": 2414,
+            "scope": 2429,
             "src": "370:65:10",
             "stateMutability": "view",
             "superFunction": null,
@@ -376,22 +376,22 @@
           {
             "body": null,
             "documentation": "@dev Batch withdraw to addresses",
-            "id": 2413,
+            "id": 2428,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "batchWithdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2409,
+              "id": 2424,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2406,
+                  "id": 2420,
                   "name": "to",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2413,
+                  "scope": 2428,
                   "src": "505:22:10",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -401,7 +401,7 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 2404,
+                      "id": 2418,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
                       "src": "505:7:10",
@@ -411,7 +411,7 @@
                         "typeString": "address"
                       }
                     },
-                    "id": 2405,
+                    "id": 2419,
                     "length": null,
                     "nodeType": "ArrayTypeName",
                     "src": "505:10:10",
@@ -425,44 +425,54 @@
                 },
                 {
                   "constant": false,
-                  "id": 2408,
+                  "id": 2423,
                   "name": "amounts",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2413,
-                  "src": "529:15:10",
+                  "scope": 2428,
+                  "src": "529:27:10",
                   "stateVariable": false,
-                  "storageLocation": "default",
+                  "storageLocation": "calldata",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_calldata_ptr",
+                    "typeString": "uint256[]"
                   },
                   "typeName": {
-                    "id": 2407,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "529:7:10",
+                    "baseType": {
+                      "id": 2421,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "529:7:10",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 2422,
+                    "length": null,
+                    "nodeType": "ArrayTypeName",
+                    "src": "529:10:10",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
                     }
                   },
                   "value": null,
                   "visibility": "internal"
                 }
               ],
-              "src": "504:41:10"
+              "src": "504:53:10"
             },
             "returnParameters": {
-              "id": 2412,
+              "id": 2427,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2411,
+                  "id": 2426,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2413,
-                  "src": "564:4:10",
+                  "scope": 2428,
+                  "src": "576:4:10",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -470,10 +480,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 2410,
+                    "id": 2425,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "564:4:10",
+                    "src": "576:4:10",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -483,20 +493,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "563:6:10"
+              "src": "575:6:10"
             },
-            "scope": 2414,
-            "src": "482:88:10",
+            "scope": 2429,
+            "src": "482:100:10",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 2415,
-        "src": "66:506:10"
+        "scope": 2430,
+        "src": "66:518:10"
       }
     ],
-    "src": "0:573:10"
+    "src": "0:585:10"
   },
   "bytecode": "0x",
   "deployedBytecode": "0x",

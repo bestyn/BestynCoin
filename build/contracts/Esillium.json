@@ -461,7 +461,7 @@
           550,
           619,
           1990,
-          2756
+          2771
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -472,7 +472,7 @@
           149,
           1990,
           550,
-          2756,
+          2771,
           619
         ],
         "name": "Esillium",
@@ -566,7 +566,7 @@
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2713,
+                      "referencedDeclaration": 2728,
                       "src": "270:5:5",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
@@ -583,7 +583,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2961,
+                        "referencedDeclaration": 2976,
                         "src": "278:3:5",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -698,7 +698,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2961,
+                          "referencedDeclaration": 2976,
                           "src": "473:3:5",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",

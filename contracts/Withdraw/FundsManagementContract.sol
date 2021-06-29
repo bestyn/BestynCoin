@@ -45,12 +45,11 @@ contract FundsManagementContract is WithdrawInterface, DepositInterface, Ownable
     function withdraw(address to, uint256 amount) external returns (bool) {
         require(amount <= limit, 'you cannot withdraw so much money at a time');
 
-        (bool success, bytes memory result) = erc20Contract.delegatecall(
-            abi.encodeWithSignature("transferFrom(address,address,uint256)", msg.sender, to, amount)
-        );
+        address tokensOwner = Ownable(erc20Contract).owner();
+        bool success = IERC20.transferFrom(tokensOwner, to, amount);
 
         emit Withdraw(msg.sender, to, amount, success);
-        return abi.decode(result, (bool));
+        return success;
     }
 
     /// @dev Check balance on contract for token address

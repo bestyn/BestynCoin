@@ -85,8 +85,8 @@ describe('FundsManagementContract', async () => {
 
         expect(await fundsManagementContract.balanceOf(sender)).to.bignumber.equal(String(senderBalanceBefore - amounts[0]));
         expect(await fundsManagementContract.balanceOf(receiver1)).to.bignumber.equal(String(amounts[1]));
-        expect(await fundsManagementContract.balanceOf(receiver2)).to.bignumber.equal(String(receiverBalance2Before + (amounts[2] / 3)));
-        expect(await fundsManagementContract.balanceOf(receiver3)).to.bignumber.equal(String(receiverBalance3Before + (amounts[3] / 3)));
+        expect(await fundsManagementContract.balanceOf(receiver2)).to.bignumber.equal(String(amounts[2]));
+        expect(await fundsManagementContract.balanceOf(receiver3)).to.bignumber.equal(String(amounts[3]));
     });
 });
 

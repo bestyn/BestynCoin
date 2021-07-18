@@ -89,9 +89,4 @@ contract MainContract is ERC20 {
     function() external payable {
         revert();
     }
-
-    function convertIntToUInt(int j) public view returns (uint){
-        int i = 1;
-        return uint(i) + uint(j);
-    }
 }

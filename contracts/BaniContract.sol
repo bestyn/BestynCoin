@@ -8,8 +8,7 @@ contract BaniContract is MainContract, Initializable {
      constructor () public {initialize();}
 
      function initialize() public initializer {
-          owner = msg.sender;
-//          init('BANI', 'BANI', 5, 7000000000, 0x158ad714bc7BEeaD490960eCB382717FA36Ef926, 0x51b8Aa6616B868a4F36b0b3C6Db46B015c5467D6);
-          init('BANI', 'BANI', 5, 7000000000, msg.sender);
+          owner = 0x6CEE4f0558c668C063BB8221deaA5bc25468f8a0;
+          init('BANI', 'BANI', 5, 7000000000, owner);
      }
 }

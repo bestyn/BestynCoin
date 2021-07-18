@@ -1,0 +1,33 @@
+{
+  "name": "banicontracts",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "@openzeppelin/cli": "^2.8.2",
+    "@openzeppelin/contracts": "^2.5.0",
+    "@openzeppelin/contracts-ethereum-package": "^2.5.0",
+    "@openzeppelin/test-environment": "^0.1.9",
+    "@openzeppelin/test-helpers": "^0.5.11",
+    "@openzeppelin/upgrades": "^2.8.0",
+    "@truffle/hdwallet-provider": "^1.4.0",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "truffle-privatekey-provider": "^1.5.0"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.12.2",
+    "husky": "^4.3.8",
+    "mocha": "^7.1.1"
+  },
+  "scripts": {
+    "build": "npx oz compile",
+    "deploy": "npx oz create --force",
+    "accounts": "npx oz accounts",
+    "call": "npx oz call",
+    "test": "mocha --exit --recursive test",
+    "wallet": "npm install --save-dev ganache-cli",
+    "start-wallet": "npx ganache-cli --deterministic",
+    "flat-contract": "npx truffle-flattener ./contracts/BaniContract.sol > ./contracts/BaniContractFlat.sol\n",
+    "start-zeroether": "docker run --name ethereum-node -v /Users/alice/ethereum:/root -p 8545:8545 -p 30303:30303 ethereum/client-go",
+    "compress-code": "npx truffle-flattener ./contracts/Esillium.sol > ./contracts/EsilliumFlat.sol"
+  }
+}
